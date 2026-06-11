@@ -1,0 +1,27 @@
+{
+"manifest_version": 3,
+"name": "Side Panel Notepad",
+"version": "2",
+"description": "A Notepad-like extension for chrome that utilises the side panel.",
+"permissions":
+[   
+    "storage",
+    "sidePanel",
+    "clipboardWrite",
+    "clipboardRead"
+],
+"icons": 
+{
+    "128": "images/icon128.png",
+    "48": "images/icon48.png",
+    "16": "images/icon16.png"
+},
+"side_panel": 
+{
+      "default_path": "sidePanel.html"
+},
+"background":
+{
+    "service_worker": "background.js"
+}
+}
