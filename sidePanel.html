@@ -4,32 +4,36 @@
         <meta charset = "UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
-        <title> Sidebar Notepad </title>
+        <title> SidePanel Notepad </title>
     </head>
     <body>
 
         <!-- The popup tag contains all of the buttons and text elements used within the popup menu. -->
         <div class = "popup" id = "popup"> 
-            <button class = "menu-back" id = "menuBack"> <img src = "images\menu.png" class = "menu-icon" style = "width:16px; height:14px"> </button> 
-            <div class = "center">
-                <h1 class = "my-notes">My Notes</h1>
+                <div id ="description-menu-back" class ="description description-other"> </div>
+                <button class = "menu-back" id = "menu-back" data-desc="Back to note."> <img src = "images\menu.png" class = "menu-icon" style = "width:16px; height:14px"> </button> 
+                <div class = "center">
+                    <h1 class = "my-notes" style = "cursor:default;">My Notes</h1>
+                    <h3 class = "instructions">Left Click to Enter | Right Click to Delete</h3>
                     <div class = "main-menu">
                         <ul class = "notes" id = "notes">
-                            <li class="note-padding">
-                            </li>
-                        </ul>
+                            <li>
+                                </li>
+                            </ul>
                     </div>
+                    <hr id="line" style = "width: 300px; margin-top: 30px; border: black solid 1px;">
                     <ul class = "list-end">
-                        <li><button class = "note-button add" id = "add-note">Add Note</button></li>
-                    </ul>
-                     
-                    <h3 class = "sign-in">Sign into Chrome to sync notes between devices.</h3>
-            </div>
+                        <li>
+                            <button class = "add-button" id = "add-note">Add Note</button>
+                        </li>
+                    </ul>  
+                    <h3 class = "sign-in" style = "font-size: large; cursor:default;">Notes are saved locally for maximum privacy.</h3>
+                </div>
         </div>
 
         <!-- The following contains all of the elements found in the main notepad page. -->
         <button id = "menu" class = "menu" data-desc="Switch note."> <img src = "images\menu.png" class = "menu-icon-back" style = "width:16px; height:14px"> </button>
-        <div id ="description-menu" class ="description-menu"> </div>
+        <div id ="description-menu" class ="description description-other"> </div>
         <div class = "center">
         <input value="New Note" id ="fileName" class="heading" maxlength="15">
         </div>  
@@ -38,11 +42,11 @@
                 <button class = "button-style" id = "save" data-desc="Download the note as a .txt file."> 
                     <img src="images\download.png" style = "width:13px; height:15px"> </button>
                 <button class = "button-style" id = "undo" data-desc="Undo last input."> 
-                    <img src="images\undo.svg" style = "width:13px; height:11px"> </button>
+                    <img src="images\undo.png" style = "width:13px; height:15px"> </button>
                 <button class = "button-style" id = "copy" data-desc="Copy note contents to the clipboard."> 
                     <img src="images\copy.png" style = "width:13px; height:15px"> </button> 
-                <button class = "button-style" id = "paste" data-desc = "Paste clipboard contents into the notepad."> 
-                    <img src="images\paste.png" style = "width:13px; height:16px"> </button> 
+                <button class = "button-style" id = "paste" data-desc = "Paste clipboard contents."> 
+                    <img src="images\paste.png" style = "width:13px; height:15px"> </button> 
                 <div class = "theme-options">
                     <button class = "button-style" id = "green" data-desc="Change the notepad theme to green."> 
                         <img src="images\green.png" style = "width:13px; height:15px"> </button>
@@ -53,12 +57,10 @@
                     <button class = "button-style" id = "blue" data-desc="Change the notepad theme to blue."> 
                         <img src="images\blue.png" style = "width:13px; height:15px"> </button>
                 </div>
+                <div id ="description" class ="description"> </div>
             </div>
-            <div id ="description" class ="description"> </div>
             <textarea id ="editor" class="content" rows ="19" cols="74"></textarea>
-            <div id ="description-bin" class ="description-bin"> </div>
-            <button class = "bin" id = "bin" data-desc= "Delete Note."> <img src="images\bin.svg" class = "bin-icon" style = "width:13px; height:15px"> </button>
-            <footer>V2.0</footer>
+            <footer class = "version">V2.1</footer>
             <script src="sidePanel.js"></script>
         </div>
 

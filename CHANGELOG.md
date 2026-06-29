@@ -53,7 +53,7 @@ V1.1
 
 V1.0 
 - Created an undo button that uses a stack to retrieve save states.
-- Created a save functionality that converts the text area content into a .txt file.
+- Created a save functionality that converts the text area content into a txt file.
 
 References:
 - https://stackoverflow.com/questions/40121246/trigger-function-when-someone-has-stopped-typing-for-1-second (Delayed function)
