@@ -1,10 +1,20 @@
 # Chrome Notepad
 
-This is a very basic text editor chrome extension project developed using html, css and javascript as a way for me to learn a bit of javascript.
+This is a very basic text editor Chrome extension project developed using html, CSS and JavaScript as a way for me to learn a bit of JavaScript.
 
-V1.0 (Release)
+V2.2 (August 2026)
+- Added Dark Mode.
+  
+V2.1 (Bug Fix - June 2025)
+- Updated the menu layout and fixed a bug regarding the scaling of the UI.
+  
+V2.0 (June 2026)
+- Changed to unlimited note storage.
+- Improved UX for greater contrast and consistency.
+  
+V1.0 (Release - September 2024)
 - Now released on the Chrome webstore at https://chromewebstore.google.com/detail/side-panel-notepad/gopjnkhllbiccdmilekbibjdleogkfcj.
-- Fixed some issues that occured upon reloading the extension.
+- Fixed some issues that occurred upon reloading the extension.
 
 Development Version History:
 
@@ -12,7 +22,7 @@ V3.0
 - Completed the note storage system.
 - Added elements to the menu to better inform the user of the notepad features in addition to breaking up whitespace.
 - Added an info element when hovering over the menu button.
-- Fixed various bugs that occured when switching between notes.
+- Fixed various bugs that occurred when switching between notes.
 
 V3.0B
 - (Incomplete) Up to six notes can be saved by the chrome storage API and accessed within the new menu section.
@@ -31,7 +41,7 @@ V2.1
 
 V2.0
 - The notepad now opens in the side panel rather than as a popup window so that the notepad can be used simultaneously when interacting with sites.
-- Minor aethsetic changes to compliment the new side panel window style.
+- Minor aesthetic changes to compliment the new side panel window style.
 
 V1.31
 - Fixed an issue with the undo button saving duplicate states when the spacebar is pressed.
@@ -45,7 +55,7 @@ V1.2
 - Added button descriptions that appear when hovered over for 1 second.
 
 V1.11
-- Minor aethsetic improvements.
+- Minor aesthetic improvements.
 
 V1.1
 - Added the ability to copy textarea content to the clipboard.
