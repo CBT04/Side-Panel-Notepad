@@ -1,4 +1,4 @@
-/* Classes are sorted in alphabetical order for convinience. */
+/* Classes are sorted in alphabetical order for convinience with dark mode styling directly below the original class. */
 
 * 
 {
@@ -14,10 +14,18 @@
     box-shadow: 3px 3px;
     margin-right: 40px;
     outline: none;
-    border: none;
+    border: 1px transparent;
     margin-top: 20px;
     width: 200px;
     margin-right: 50px;
+}
+
+body.dark-mode .add-button
+{
+    background-color: #303030 !important;
+    border: 1px solid #EFEFEF !important;
+    box-shadow: 3px 3px #EFEFEF;
+    color: #EFEFEF;
 }
 
 .add-button:hover
@@ -51,18 +59,28 @@ body
     overflow-y: hidden;
 }
 
+body.dark-mode {
+    background-color: #121212 !important;
+}
+
 .button-style 
 {
     border: none;
     padding: 8px 10px;
     border-radius: 5px;
-    background-color: rgb(199, 196, 196);
+    background-color: rgba(199, 196, 196, 0);
 }
 
 .button-style:hover 
 {
     cursor: pointer;
     background-color: #bfcFeb;
+}
+
+body.dark-mode .button-style:hover 
+{
+    cursor: pointer;
+    background-color: #4b4e5373;
 }
 
 .center 
@@ -76,8 +94,8 @@ body
 
 .content 
 {
-    background-color: rgb(246, 241, 241);
-    color: black;
+    background-color: #EFEFEF;
+    color: #000000;
     width: 340px;
     padding: 10px;
     outline: none;
@@ -87,6 +105,32 @@ body
     border: black solid 2px;
     margin-left: 10px;
     flex: 1;
+    font-family:'Arial', Tahoma, Verdana, sans-serif !important;
+    font-weight: 700;
+}
+
+body.dark-mode .content 
+{
+    background-color: #282828 !important;
+    color: #EFEFEF !important;
+    box-shadow: var(--theme-colour, #50BB3D) 3px 3px;
+    border: var(--theme-colour, #50BB3D) solid 2px;
+    border-top: none;
+}
+
+.dark-button 
+{
+    float: inline-end;
+    margin-right: 8px;
+    margin-top: 10px;
+    border: 0;
+    background-color: #00000000;
+}
+
+.dark-button:hover 
+{
+    cursor: pointer;
+    transform: scale(1.1);
 }
 
 .description
@@ -97,9 +141,21 @@ body
     border: black solid 1px;
     padding: 2px;
     margin: 5px;
-    background-color: rgb(246, 241, 241);
+    background-color: #EFEFEF;
     box-shadow: 2px 2px;
     font-weight: bold;
+}
+
+body.dark-mode .description
+{
+    background-color: #161616 !important;
+    border: #EFEFEF solid 1px !important;
+    color: #EFEFEF !important;
+}
+
+body.dark-mode .ducp
+{
+ filter: invert(0.9);
 }
 
 footer
@@ -112,8 +168,7 @@ footer
 .heading 
 {
     font-size: 23px;
-    background-color: rgb(246, 241, 241);
-    border: none;
+    background-color: #EFEFEF;
     outline: none;
     text-align: center;
     width: 205px;
@@ -122,16 +177,37 @@ footer
     box-shadow: 3px 3px;
 }
 
+body.dark-mode .heading
+{
+    background-color: #303030 !important;
+    color: #EFEFEF !important;
+    box-shadow: var(--theme-colour, #50BB3D) 3px 3px;
+    border: var(--theme-colour, #50BB3D) 2px solid;
+}
+
 .instructions
 {
     cursor:default; 
     box-shadow: 2px 2px; 
     border: solid 2px; 
-    background-color: rgb(255, 255, 255); 
+    background-color: #EFEFEF; 
     padding-left: 5px; 
     padding-right: 5px; 
     margin-bottom: 20px; 
     font-size: 12px;
+}
+
+body.dark-mode .instructions
+{
+    background-color: #161616 !important; 
+    color: #EFEFEF !important; 
+    border-color: #EFEFEF !important;
+    box-shadow: 2px 2px #EFEFEF !important; 
+}
+
+body.dark-mode .line
+{
+    border-color: #EFEFEF !important;
 }
 
 .list-end 
@@ -162,13 +238,22 @@ footer
     height: calc(100vh - 200px);
 }
 
+body.dark-mode .main-notepad {
+    background-color: #121212;
+}
+
 .menu
 {
     margin-left: 10px;
     margin-top: 11px;
     outline: none;
     border: none;
-    background-color: #50BB3D;
+    background-color: transparent;
+}
+
+body.dark-mode .menu 
+{   
+    filter: invert(0.9);
 }
 
 .menu:hover
@@ -186,6 +271,11 @@ footer
     background-color: transparent;
 }
 
+body.dark-mode .menu-back
+{
+    filter: invert(0.9);
+}
+
 .menu-back:hover
 {
     cursor: pointer;
@@ -200,11 +290,15 @@ footer
     margin-top: -10px;
 }
 
+body.dark-mode .my-notes
+{
+    color: #EFEFEF !important;
+}
+
 .notes
 {   
     list-style-type: none;
     overflow: auto !important;
-    scrollbar-color: black;
     padding: 0;
     padding-bottom: 5px;
 }
@@ -215,11 +309,11 @@ footer
     padding: 5px;
     overflow-wrap: break-word;
     vertical-align: top;
-    background-color: #50BB3D;
-    box-shadow: 3px 3px;
+    background-color: var(--theme-colour, #50BB3D);
+    box-shadow: var(--shadow-w, 3px 3px) !important;
     margin-right: 40px;
     outline: none;
-    border: none;
+    border: 2px transparent;
     margin-top: 20px;
     margin-bottom: 10px;
     width: 85px;
@@ -234,6 +328,13 @@ footer
     transform: translateY(-10px);
 }
 
+body.dark-mode .note-button {
+    background-color: #303030 !important;
+    color: #EFEFEF !important;
+    border: 2px solid var(--theme-colour, #50BB3D) !important;
+    box-shadow: var(--shadow-w, 3px 3px) var(--theme-colour, #50BB3D) !important;
+}
+
 .options-bar
 {
     background-color:rgb(199, 196, 196);
@@ -242,6 +343,12 @@ footer
     margin-left: 10px;
     border: black solid 2px;
     border-bottom: none;
+}
+
+body.dark-mode .options-bar 
+{
+    background-color:#121212;
+    border: 2px solid var(--theme-colour, #50BB3D) !important;
 }
 
 .popup 
@@ -262,6 +369,11 @@ footer
     height: calc(100vh - 120px);
 }
 
+body.dark-mode .popup
+{
+    background-color: #161616 !important;
+}
+
 .popup-header
 {
     display: flex;
@@ -270,7 +382,6 @@ footer
     padding: 10px 15px;
     width: 100%;
     box-sizing: border-box;
-
 }
 
 .sign-in
@@ -279,6 +390,11 @@ footer
     width: 300px;
     padding-top: 20px;
     margin: auto;
+}
+
+body.dark-mode .sign-in
+{
+    color: #EFEFEF !important;
 }
 
 .theme-options 
@@ -295,6 +411,11 @@ footer
     font-weight: 100;
 }
 
+body.dark-mode .version
+{
+    color: #EFEFEF !important;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -303,6 +424,14 @@ footer
   background: #bbbbbb;
 }
 
+body.dark-mode ::-webkit-scrollbar-track {
+  background: #949494;
+}
+
 ::-webkit-scrollbar-thumb {
   background: #000000;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb {
+  background: #EFEFEF;
 }

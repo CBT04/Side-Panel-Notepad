@@ -1,6 +1,4 @@
-// Functions are sorted in alphabetical order for convenience. 
-
-// Declaration of variables and binding event listeners to buttons.
+// Delceration of variables and binding event listeners to buttons.
 var active;
 var timeoutIDsave;
 var timeoutIDdesc;
@@ -11,14 +9,11 @@ let upgraded = true;
 
 chrome.storage.local.get(["notes", "current"], function(result)
 {   
-    // If the user has pre existing notes.
     if (result.notes === undefined) {
-        // Check if the user has just upgraded version and needs to migrate their existing notes.
         chrome.storage.local.get("upgraded", function (upgradeResult) {
             if (upgradeResult.upgraded === undefined) {
                 chrome.storage.sync.get(["note1", "note2", "note3", "note4", "note5", "note6"], function(legacyResult) {
-                // Add each legacy note to the note object.
-                    if (legacyResult.note2  !== undefined) {
+                if (legacyResult.note2  !== undefined) {
                     notes_obj["note-1"] = legacyResult.note1;
                     notes_obj["note-2"] = legacyResult.note2;
                     notes_obj["note-3"] = legacyResult.note3;
@@ -42,16 +37,20 @@ chrome.storage.local.get(["notes", "current"], function(result)
     if (result.current === undefined) {
         currentNote = "note-1"
     } else {
-        // Open the last note that the user was editing.
         currentNote = result.current;
     }
-    // Handles the case where no notes exist by opening the menu on launch.
     if (Object.keys(notes_obj).length === 0 || result.current === null) {
         openMenu();
         currentNote = null;
     }
     if (currentNote !== null) {
         switchNote(currentNote);
+    }
+});
+
+chrome.storage.local.get("theme", function (themeResult) {
+    if (themeResult.theme === "dark") {
+        switchDark();
     }
 });
 
@@ -62,48 +61,52 @@ const content = document.getElementById("editor");
 document.getElementById("fileName").addEventListener("click", enterFileName);
 
 document.getElementById("save").addEventListener("click", download);
-document.getElementById("save").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info_tooltips("save", "left");}, 1000);});
+document.getElementById("save").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("save", "left");}, 1000);});
 document.getElementById("save").addEventListener("mouseout", function() {clear("save")});
 
 document.getElementById("undo").addEventListener("click", undo);
-document.getElementById("undo").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info_tooltips("undo");}, 1000);});
+document.getElementById("undo").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("undo");}, 1000);});
 document.getElementById("undo").addEventListener("mouseout", function() {clear("undo")});
 
 document.getElementById("copy").addEventListener("click", copy);
-document.getElementById("copy").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info_tooltips("copy");}, 1000);});
+document.getElementById("copy").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("copy");}, 1000);});
 document.getElementById("copy").addEventListener("mouseout", function() {clear("copy")});
 
 document.getElementById("paste").addEventListener("click", paste);
-document.getElementById("paste").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info_tooltips("paste");}, 1000);});
+document.getElementById("paste").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("paste");}, 1000);});
 document.getElementById("paste").addEventListener("mouseout", function() {clear("paste")});
 
 document.getElementById("green").addEventListener("click", function() {changeTheme("green", currentNote)});
-document.getElementById("green").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info_tooltips("green", "right");}, 1000);});
+document.getElementById("green").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("green", "right");}, 1000);});
 document.getElementById("green").addEventListener("mouseout", function() {clear("green");});
 
 document.getElementById("red").addEventListener("click", function() {changeTheme("red", currentNote)});
-document.getElementById("red").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info_tooltips("red", "right");}, 1000);});
+document.getElementById("red").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("red", "right");}, 1000);});
 document.getElementById("red").addEventListener("mouseout", function() {clear("red")});
 
 document.getElementById("yellow").addEventListener("click", function() {changeTheme("yellow", currentNote)});
-document.getElementById("yellow").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info_tooltips("yellow", "right");}, 1000);});
+document.getElementById("yellow").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("yellow", "right");}, 1000);});
 document.getElementById("yellow").addEventListener("mouseout", function() {clear("yellow")});
 
 document.getElementById("blue").addEventListener("click", function() {changeTheme("blue", currentNote)});
-document.getElementById("blue").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info_tooltips("blue", "right");}, 1000);});
+document.getElementById("blue").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("blue", "right");}, 1000);});
 document.getElementById("blue").addEventListener("mouseout", function() {clear("blue")});
 
 document.getElementById("menu").addEventListener("click", openMenu);
-document.getElementById("menu").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info_tooltips("menu", "menu");}, 1000);});
+document.getElementById("menu").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("menu", "menu");}, 1000);});
 document.getElementById("menu").addEventListener("mouseout", function() {clear("menu")});
 
 document.getElementById("menu-back").addEventListener("click", closeMenu);
-document.getElementById("menu-back").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info_tooltips("menu-back", "menu");}, 1000);});
+document.getElementById("menu-back").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("menu-back", "menu");}, 1000);});
 document.getElementById("menu-back").addEventListener("mouseout", function() {clear("menu-back")});
+
+document.getElementById("dark-button").addEventListener("click", switchDark);
+document.getElementById("dark-button").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("dark-button", "menu");}, 1000);});
+document.getElementById("dark-button").addEventListener("mouseout", function() {clear("dark-button")});
 
 document.getElementById("add-note").addEventListener("click", createNote);
 
-// If the user did not type a fileName into the field the default value "Untitled Note" is used instead.
+// If the user did not type a fileName into the field the defualt value "Untitled Note" is used instead.
 document.getElementById("fileName").addEventListener("focusout", function() {
         if (document.getElementById("fileName").value == "")
         {
@@ -115,47 +118,25 @@ document.getElementById("fileName").addEventListener("focusout", function() {
         saveState();
     })
 
-/** 
- * Assigns a unique ID in milliseconds to ensure uniqueness.
- * Creates a corresponding UI button and adds it to the noteList object. 
-*/
-function createNote()
-{   
-    const newId = Date.now()
-    const noteList = document.getElementById("notes")
-    notes_obj[newId] = {title: "New Note", theme: "green", contents: ""};
-    const newNote =  document.createElement("button");
-    newNote.classList.add('note-button');
-    newNote.setAttribute("id", newId);
-    newNote.innerHTML = "New Note";
-    newNote.addEventListener("click", () => switchNote(newId));
-    newNote.addEventListener("contextmenu", (event) => event.preventDefault());
-    newNote.addEventListener("contextmenu", () => deleteNote(newId));
-    noteList.appendChild(newNote);
-    saveState();
-    newNote.scrollIntoView({ block: "end" });
-}
-
-/** 
- * Switches elements to a specified hex colour depending on the value of the colour button that was chosen.
-*/
+// Functions are sorted in alphabetical order for convinience.
 function changeTheme(colour, noteId)
 {   
+    // Switches elements to a specified rgb colour depending on the value of the colour button that was chosen.
     clear(colour);
     selectedColour = getColour(colour)
     document.body.style.background = selectedColour;
-    document.getElementById("menu").style.background = selectedColour;
-    document.getElementById(noteId).style.background = selectedColour;
+    document.getElementById(noteId).style.setProperty("--theme-colour", selectedColour);
     toChange = notes_obj[noteId];
     toChange.theme = colour;
+    document.querySelector(".content").style.setProperty("--theme-colour", selectedColour);
+    document.querySelector(".heading").style.setProperty("--theme-colour", selectedColour);
+    document.querySelector(".options-bar").style.setProperty("--theme-colour", selectedColour);
     saveState();
 };
 
-/** 
- * Clears the tooltip element corresponding with the button that the user was last hovering over.
-*/
 function clear(button) 
 {
+    // Clears the textcontent of the corresponding button. 
     clearTimeout(timeoutIDdesc);
     if (button == "bin")
     {
@@ -173,6 +154,10 @@ function clear(button)
     {
         buttonDesc = document.getElementById('description-menu-back');
     }
+    else if (button == "dark-button")
+    {
+        buttonDesc = document.getElementById('description-theme');
+    }
     else
     {
         buttonDesc = document.getElementById('description');
@@ -180,11 +165,9 @@ function clear(button)
     buttonDesc.style.display = "none";
 };
 
-/** 
- * Closes the popup menu by hiding the popup element.
-*/
 function closeMenu()
 {
+    // Closes the popup menu by hiding the popup element.
     if (currentNote !== null) {
         popup = document.getElementById("popup");
         popup.style.display = "none";
@@ -192,9 +175,6 @@ function closeMenu()
     document.getElementById("menu").style.display = "block";
 };
 
-/** 
- * Selects the notepad contents and copies them to the clipboard.
-*/
 function copy() 
 {   
     // Uses the navigator object and clipboard API to copy the text area content to the clipboard.
@@ -204,12 +184,35 @@ function copy()
     navigator.clipboard.writeText(textToCopy.value);
 };
 
-/** 
- * Deletes an existing note from the notes list object and plays a quick animation to make it clear which note is being deleted. 
- * @param {string} key - The ID of the note that is to be deleted. 
- */
+function createNote()
+{   
+    const newId = Date.now()
+    const noteList = document.getElementById("notes")
+    notes_obj[newId] = {title: "New Note", theme: "green", contents: ""};
+    const newNote =  document.createElement("button");
+    newNote.classList.add('note-button');
+    newNote.setAttribute("id", newId);
+    newNote.innerHTML = "New Note";
+
+    newNote.style.setProperty('--shadow-w', '3px 3px');
+    newNote.addEventListener("click", () => switchNote(newId));
+    newNote.addEventListener("contextmenu", (event) => event.preventDefault());
+    newNote.addEventListener("contextmenu", () => deleteNote(newId));
+    noteList.appendChild(newNote);
+
+    chrome.storage.local.get("theme", function (themeResult) {
+    if (themeResult.theme === "dark") {
+        newNote.classList.toggle("dark-mode");
+    }
+    });
+
+    saveState();
+    newNote.scrollIntoView({ block: "end" });
+};
+
 function deleteNote(key)
 {
+    // Deletes an existing note from the notes list object.
     delete notes_obj[key];
     const noteList = document.getElementById("notes")
     const toDelete = document.getElementById(key);
@@ -225,12 +228,8 @@ function deleteNote(key)
             }
             openMenu();
     }, 300);
-}
+};
 
-/** 
- * Creates a download link which is automatically triggered.
- * Uses the user provided note name as the name of the file or use default file name if not provided.
-*/
 function download() 
 {
     // Creates and appends a link to the document body so that it can be saved as a text file.
@@ -239,7 +238,7 @@ function download()
     link.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(content.value));
     let fileName = document.getElementById("fileName").value;
 
-    // If the file name is left empty a default value is provided.
+    // If the file name is left empty a defualt value is provided.
     if (fileName == '') 
     {
         fileName = "Untitled Note";
@@ -251,11 +250,9 @@ function download()
     document.body.removeChild(link);
 };
 
-/** 
- * Clears the default fileName input field for convenience when clicked on.
-*/
 function enterFileName() 
 {   
+    // Clears the defualt fileName input field for convinience when clicked on.
     const fileName = document.getElementById("fileName").value;
     if (fileName == "New Note" || fileName == "Untitled Note")
     {
@@ -263,34 +260,9 @@ function enterFileName()
     }
 };
 
-/** 
- * Returns a colour hex value depending on the name input.
- * @param {string} colour - The name of colour to be returned. 
- */
-function getColour(colour) {
-    switch(colour) 
-    {
-        case "red":
-            return "#F77373";
-            break;
-        case "green":
-            return "#50BB3D";
-            break;
-        case "blue":
-            return "#529EBF";
-            break;
-        case "yellow":
-            return "#CCC31B";
-            break;
-    }
-};
-
-/** 
- * Displays an informational tooltip by updating the styles using strictly defined values for the button which the user is hovering over.
- * @param {string} button - The name of the button that the user is hovering over. 
- */
-function info_tooltips(button)
+function info(button)
 {   
+    // Custom tooltips with hardcoded positions relative to the location within the DOM.
     if (button == "menu")
     {
         buttonDesc = document.getElementById('description-menu');
@@ -298,6 +270,10 @@ function info_tooltips(button)
     else if (button == "menu-back")
     {
         buttonDesc = document.getElementById('description-menu-back');
+    }
+    else if (button == "dark-button")
+    {
+        buttonDesc = document.getElementById('description-theme');
     }
     else
     {
@@ -319,7 +295,6 @@ function info_tooltips(button)
     buttonDesc.style.left = "auto";
     buttonDesc.style.right = "auto";
 
-    // Position of the tooltip varies for each button.
     if (button === "save") {
         buttonDesc.style.left = "39px";
     } 
@@ -343,20 +318,21 @@ function info_tooltips(button)
     } 
     else if (button === "green") {
         buttonDesc.style.right = "150px";
-    } else if (button === "menu" || button === "menu-back") {
+    } 
+    else if (button === "menu" || button === "menu-back") {
         buttonDesc.style.left = "35px";
+    } 
+    else if (button === "dark-button") {
+        buttonDesc.style.right = "35px";
     }
-    if (button !== "menu" && button !== "menu-back") {
+    if (button !== "menu" && button !== "menu-back" && button !== "dark-button") {
             buttonDesc.style.top = "40px"; 
     } else {
             buttonDesc.style.top = "32px"; 
     }
 
-}
+};
 
-/** 
- * Displays the popup menu by blocking the current note that is being edited.
-*/
 function openMenu()
 {
     // Opens the popup menu by showing the popup element.
@@ -372,9 +348,6 @@ function openMenu()
     }
 };
 
-/** 
- * Pastes content into the notepad text area from the user's clipboard.
-*/
 async function paste() 
 {   
     // Uses the navigator object and clipboard API to read the clipboard contents and paste them into the text area.
@@ -384,33 +357,30 @@ async function paste()
     saveState();
 };
 
-/** 
- * A clickable button for each note in the noteList object is rendered in the GUI.
- * Corresponding functions and IDs are dynamically assigned to each button.
-*/
 function renderNoteList() 
 {
+    // Loops through the note object setting the style values and ids for each note saved by the user.
     const noteList = document.getElementById("notes")
     for (const [key, value] of Object.entries(notes_obj)) {
-        // Render each note in the GUI and assign Ids and functions to each.
         const existingNote =  document.createElement("button");
         existingNote.classList.add('note-button');
         existingNote.setAttribute("id", key);
         existingNote.innerHTML = value.title;
-        existingNote.style.backgroundColor = getColour(value.theme)
+
+        const noteColour = getColour(value.theme)
+        existingNote.style.setProperty('--theme-colour', noteColour)
+        existingNote.style.setProperty('--shadow-w', '3px 3px');
         noteList.appendChild(existingNote);
         existingNote.addEventListener("click", () => switchNote(key));
         existingNote.addEventListener("contextmenu", (event) => event.preventDefault());
         existingNote.addEventListener("contextmenu", () => deleteNote(key));
     }
-}
+};
 
-/** 
- * Peeks to check that the top value is not the same as the current value and pushes a new save to the stack.
- * Converts the values to strings and trims any whitespace at the end to make sure that values are correctly compared. 
-*/
 function saveState() 
 {   
+    /* Peeks to check that the top value is not the same as the current value and pushes a new save to the stack.
+    Converts the values to strings and trims any whitespace at the end to make sure that values are correctly compared. */
     if (String(saveStack[saveStack.length-1]).trimEnd() != String(content.value).trimEnd()) 
         {
         saveStack.push(content.value);
@@ -418,14 +388,40 @@ function saveState()
     chrome.storage.local.set({notes: notes_obj});
 };
 
-/** 
- * Add a heavier box shadow (status indication) to the note button corresponding to the note that was last edited. 
- * @param {string} noteId - The ID of the note that the user was editing prior to opening the menu. 
- */
+function setContent()
+{   
+    toChange = notes_obj[currentNote];
+    changeTheme(toChange.theme, currentNote);
+    document.getElementById("editor").value = toChange.contents;
+    document.getElementById("fileName").value = toChange.title;
+};
+
+function switchDark() 
+{   
+    // Updates the icons and child elements of the body tag to their dark mode styles.
+    const isDark = document.body.classList.toggle("dark-mode");
+
+    const image = document.getElementById("dark-light-img");
+    image.src = isDark ? "images/light.png" : "images/dark.png";
+    let mode = isDark ? "dark" : "light";
+    console.log(isDark)
+    chrome.storage.local.set({"theme": mode});
+    
+    const green = document.getElementById("g");
+    const red = document.getElementById("r");
+    const blue = document.getElementById("y");
+    const yellow = document.getElementById("b");
+
+    green.src = isDark ? "images/green-dark.png" : "images/green.png";
+    red.src = isDark ? "images/red-dark.png" : "images/red.png";
+    blue.src = isDark ? "images/blue-dark.png" : "images/blue.png";
+    yellow.src = isDark ? "images/yellow-dark.png" : "images/yellow.png";
+};
+
 function switchNote(noteId)
 {   
     if (currentNote != null) {
-        document.getElementById(currentNote).style.boxShadow = "3px 3px";
+        document.getElementById(currentNote).style.setProperty('--shadow-w', '3px 3px');
     }
     currentNote = noteId;
     chrome.storage.local.set({current : currentNote});
@@ -433,26 +429,13 @@ function switchNote(noteId)
     // Hides the menu popup element.
     closeMenu();
     if (currentNote != null) {
-        document.getElementById(currentNote).style.boxShadow = "7px 7px";
+        document.getElementById(currentNote).style.setProperty('--shadow-w', '7px 7px');
     }
-}
+};
 
-/** 
- * Updates the current note by updating the filename, contents and colour to match the note that the user has clicked on. 
- */
-function setContent()
-{   
-    toChange = notes_obj[currentNote];
-    changeTheme(toChange.theme, currentNote);
-    document.getElementById("editor").value = toChange.contents;
-    document.getElementById("fileName").value = toChange.title;
-}
-
-/** 
- * Removes the latest item from the stack and peeks to provide the last save state. If the stack is empty the content is also empty..
-*/
 function undo() 
 {   
+    // Removes the latest item from the stack and peeks to provide the last save state. If the stack is empty the content is also empty.
     clear("undo");
     saveStack.pop();
     let lastSave = saveStack[saveStack.length-1];
@@ -473,3 +456,21 @@ content.addEventListener("input", function()
         saveState();
     }, 1000);
 });
+
+function getColour(colour) {
+    switch(colour) 
+    {
+        case "red":
+            return "#F77373";
+            break;
+        case "green":
+            return "#50BB3D";
+            break;
+        case "blue":
+            return "#529EBF";
+            break;
+        case "yellow":
+            return "#CCC31B";
+            break;
+    }
+};

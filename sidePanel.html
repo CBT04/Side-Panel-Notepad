@@ -12,8 +12,10 @@
         <div class = "popup" id = "popup"> 
                 <div id ="description-menu-back" class ="description description-other"> </div>
                 <button class = "menu-back" id = "menu-back" data-desc="Back to note."> <img src = "images\menu.png" class = "menu-icon" style = "width:16px; height:14px"> </button> 
+                <div id ="description-theme" class ="description description-theme"> </div>
+                <button class = "dark-button" id = "dark-button" data-desc="Switch to Dark/Light Mode."> <img src = "images\dark.png" id = "dark-light-img" class = "menu-icon" style = "width:20px; height:20px"> </button>
                 <div class = "center">
-                    <h1 class = "my-notes" style = "cursor:default;">My Notes</h1>
+                    <h1 class = "my-notes" id="my-notes" style = "cursor:default;">My Notes</h1>
                     <h3 class = "instructions">Left Click to Enter | Right Click to Delete</h3>
                     <div class = "main-menu">
                         <ul class = "notes" id = "notes">
@@ -21,7 +23,7 @@
                                 </li>
                             </ul>
                     </div>
-                    <hr id="line" style = "width: 300px; margin-top: 30px; border: black solid 1px;">
+                    <hr class="line" style = "width: 300px; margin-top: 30px; border: black solid 1px;">
                     <ul class = "list-end">
                         <li>
                             <button class = "add-button" id = "add-note">Add Note</button>
@@ -40,27 +42,27 @@
         <div class = "main-notepad">
             <div class = "options-bar">
                 <button class = "button-style" id = "save" data-desc="Download the note as a .txt file."> 
-                    <img src="images\download.png" style = "width:13px; height:15px"> </button>
+                    <img src="images\download.png" class = "ducp" style = "width:13px; height:15px"> </button>
                 <button class = "button-style" id = "undo" data-desc="Undo last input."> 
-                    <img src="images\undo.png" style = "width:13px; height:15px"> </button>
+                    <img src="images\undo.png" class = "ducp"  style = "width:13px; height:15px"> </button>
                 <button class = "button-style" id = "copy" data-desc="Copy note contents to the clipboard."> 
-                    <img src="images\copy.png" style = "width:13px; height:15px"> </button> 
+                    <img src="images\copy.png" class = "ducp" style = "width:13px; height:15px"> </button> 
                 <button class = "button-style" id = "paste" data-desc = "Paste clipboard contents."> 
-                    <img src="images\paste.png" style = "width:13px; height:15px"> </button> 
+                    <img src="images\paste.png" class = "ducp" style = "width:13px; height:15px"> </button> 
                 <div class = "theme-options">
                     <button class = "button-style" id = "green" data-desc="Change the notepad theme to green."> 
-                        <img src="images\green.png" style = "width:13px; height:15px"> </button>
+                        <img src="images\green.png" id="g" style = "width:13px; height:15px"> </button>
                     <button class = "button-style" id = "red"  data-desc="Change the notepad theme to red."> 
-                        <img src="images\red.png" style = "width:13px; height:15px"> </button>
+                        <img src="images\red.png" id="r" style = "width:13px; height:15px"> </button>
                     <button class = "button-style" id = "yellow" data-desc="Change the notepad theme to yellow."> 
-                        <img src="images\yellow.png" style = "width:13px; height:15px"> </button>
+                        <img src="images\yellow.png" id="y" style = "width:13px; height:15px"> </button>
                     <button class = "button-style" id = "blue" data-desc="Change the notepad theme to blue."> 
-                        <img src="images\blue.png" style = "width:13px; height:15px"> </button>
+                        <img src="images\blue.png" id="b" style = "width:13px; height:15px"> </button>
                 </div>
                 <div id ="description" class ="description"> </div>
             </div>
             <textarea id ="editor" class="content" rows ="19" cols="74"></textarea>
-            <footer class = "version">V2.1</footer>
+            <footer class = "version">V3.0</footer>
             <script src="sidePanel.js"></script>
         </div>
 
