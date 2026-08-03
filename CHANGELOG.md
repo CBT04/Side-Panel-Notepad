@@ -2,7 +2,7 @@
 
 This is a very basic text editor Chrome extension project developed using html, CSS and JavaScript as a way for me to learn a bit of JavaScript.
 
-Release Version History:
+**Release Version History**:
 
 V2.2 (August 2026)
 - Added Dark Mode.
@@ -18,7 +18,7 @@ V1.0 (Release - September 2024)
 - Now released on the Chrome webstore at https://chromewebstore.google.com/detail/side-panel-notepad/gopjnkhllbiccdmilekbibjdleogkfcj.
 - Fixed some issues that occurred upon reloading the extension.
 
-Development Version History:
+**Development Version History**:
 
 V3.1
 - Designed and implemented a dark mode.
