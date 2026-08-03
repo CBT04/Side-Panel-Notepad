@@ -2,6 +2,8 @@
 
 This is a very basic text editor Chrome extension project developed using html, CSS and JavaScript as a way for me to learn a bit of JavaScript.
 
+Release Version History:
+
 V2.2 (August 2026)
 - Added Dark Mode.
   
@@ -18,6 +20,10 @@ V1.0 (Release - September 2024)
 
 Development Version History:
 
+V3.1
+- Designed and implemented a dark mode.
+- Added a button to toggle between light and dark mode. The selected mode is saved in Chrome local storage so that it is retained on reload.
+  
 V3.0
 - Completed the note storage system.
 - Added elements to the menu to better inform the user of the notepad features in addition to breaking up whitespace.
