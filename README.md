@@ -11,6 +11,8 @@
 [Chrome Side Panel API]: https://developer.chrome.com/docs/extensions/reference/api/sidePanel
 
 ## Directory Structure
+
+$ tree
 .
 ├── background.js // Enables the action button to open the Chrome extension in the Side Panel. 
 ├── CHANGELOG.md // Contains a list of all development updates and release updates.
