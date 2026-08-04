@@ -66,7 +66,8 @@
 
 ---
 
-### References
-* [Delayed function]: https://stackoverflow.com/questions/40121246/trigger-function-when-someone-has-stopped-typing-for-1-second 
-* [Saving the text area as a txt file]: https://stackoverflow.com/questions/65137434/how-can-i-save-a-txt-file-from-the-value-of-a-textarea 
+## References
+
+* [Delayed function](https://stackoverflow.com/questions/40121246/trigger-function-when-someone-has-stopped-typing-for-1-second)
+* [Saving the text area as a txt file](https://stackoverflow.com/questions/65137434/how-can-i-save-a-txt-file-from-the-value-of-a-textarea) 
               
