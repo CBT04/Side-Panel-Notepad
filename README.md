@@ -47,6 +47,8 @@
     └── yellow.png
 ```
 
+---
+
 ## Typical Application Flow
 ```text
 [User Clicks on the Action Icon]
@@ -62,7 +64,9 @@
 └── Auto Save Buffering: Saves the state of the note after 1 second of no inputs to prevent rapid consumption of the Storage Quota for the Chrome Local Storage API.
 ```
 
+---
+
 ### References
-[Delayed function]: https://stackoverflow.com/questions/40121246/trigger-function-when-someone-has-stopped-typing-for-1-second 
-[Saving the text area as a txt file]: https://stackoverflow.com/questions/65137434/how-can-i-save-a-txt-file-from-the-value-of-a-textarea 
+* [Delayed function]: https://stackoverflow.com/questions/40121246/trigger-function-when-someone-has-stopped-typing-for-1-second 
+* [Saving the text area as a txt file]: https://stackoverflow.com/questions/65137434/how-can-i-save-a-txt-file-from-the-value-of-a-textarea 
               
