@@ -5,7 +5,7 @@
 V2.2 (August 2026)
 - Added Dark Mode.
   
-V2.1 (Bug Fix - June 2025)
+V2.1 (Bug Fix - June 2026)
 - Updated the menu layout and fixed a bug regarding the scaling of the UI.
   
 V2.0 (June 2026)
