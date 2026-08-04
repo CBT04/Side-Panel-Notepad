@@ -1,6 +1,4 @@
-# Chrome Notepad
-
-This is a very basic text editor Chrome extension project developed using html, CSS and JavaScript as a way for me to learn a bit of JavaScript.
+# Chrome Notepad Changelog
 
 **Release Version History**:
 
