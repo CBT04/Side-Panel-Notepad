@@ -106,7 +106,8 @@ body.dark-mode .button-style:hover
     margin-left: 10px;
     flex: 1;
     font-family:'Arial', Tahoma, Verdana, sans-serif !important;
-    font-weight: 700;
+    font-weight: 700 !important;
+    line-height: 1.5 !important;
 }
 
 body.dark-mode .content 

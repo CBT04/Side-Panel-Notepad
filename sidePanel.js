@@ -1,5 +1,4 @@
 // Delceration of variables and binding event listeners to buttons.
-var active;
 var timeoutIDsave;
 var timeoutIDdesc;
 
@@ -12,8 +11,8 @@ chrome.storage.local.get(["notes", "current"], function(result)
     if (result.notes === undefined) {
         chrome.storage.local.get("upgraded", function (upgradeResult) {
             if (upgradeResult.upgraded === undefined) {
-                chrome.storage.sync.get(["note1", "note2", "note3", "note4", "note5", "note6"], function(legacyResult) {
-                if (legacyResult.note2  !== undefined) {
+                chrome.storage.sync.get(["note1", "note2", "note3", "note4", "note5", "note6"], async function(legacyResult) {
+                if (legacyResult.note2 !== undefined) {
                     notes_obj["note-1"] = legacyResult.note1;
                     notes_obj["note-2"] = legacyResult.note2;
                     notes_obj["note-3"] = legacyResult.note3;
@@ -25,86 +24,32 @@ chrome.storage.local.get(["notes", "current"], function(result)
                 }
                 chrome.storage.local.set({"notes": notes_obj}, function() {
                     chrome.storage.local.set({"upgraded": upgraded});
-                    renderNoteList();
+                    finishSetUp(result.current);
                 });
             });
         }
         });
     } else {
         notes_obj = result.notes;
-        renderNoteList();
-    }
-    if (result.current === undefined) {
-        currentNote = "note-1"
-    } else {
-        currentNote = result.current;
-    }
-    if (Object.keys(notes_obj).length === 0 || result.current === null) {
-        openMenu();
-        currentNote = null;
-    }
-    if (currentNote !== null) {
-        switchNote(currentNote);
-    }
-});
-
-chrome.storage.local.get("theme", function (themeResult) {
-    if (themeResult.theme === "dark") {
-        switchDark();
+        finishSetUp(result.current);
     }
 });
 
 let saveStack = [];
-
 const content = document.getElementById("editor");
 
-document.getElementById("fileName").addEventListener("click", enterFileName);
-
-document.getElementById("save").addEventListener("click", download);
-document.getElementById("save").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("save", "left");}, 1000);});
-document.getElementById("save").addEventListener("mouseout", function() {clear("save")});
-
-document.getElementById("undo").addEventListener("click", undo);
-document.getElementById("undo").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("undo");}, 1000);});
-document.getElementById("undo").addEventListener("mouseout", function() {clear("undo")});
-
-document.getElementById("copy").addEventListener("click", copy);
-document.getElementById("copy").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("copy");}, 1000);});
-document.getElementById("copy").addEventListener("mouseout", function() {clear("copy")});
-
-document.getElementById("paste").addEventListener("click", paste);
-document.getElementById("paste").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("paste");}, 1000);});
-document.getElementById("paste").addEventListener("mouseout", function() {clear("paste")});
-
-document.getElementById("green").addEventListener("click", function() {changeTheme("green", currentNote)});
-document.getElementById("green").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("green", "right");}, 1000);});
-document.getElementById("green").addEventListener("mouseout", function() {clear("green");});
-
-document.getElementById("red").addEventListener("click", function() {changeTheme("red", currentNote)});
-document.getElementById("red").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("red", "right");}, 1000);});
-document.getElementById("red").addEventListener("mouseout", function() {clear("red")});
-
-document.getElementById("yellow").addEventListener("click", function() {changeTheme("yellow", currentNote)});
-document.getElementById("yellow").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("yellow", "right");}, 1000);});
-document.getElementById("yellow").addEventListener("mouseout", function() {clear("yellow")});
-
-document.getElementById("blue").addEventListener("click", function() {changeTheme("blue", currentNote)});
-document.getElementById("blue").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("blue", "right");}, 1000);});
-document.getElementById("blue").addEventListener("mouseout", function() {clear("blue")});
-
-document.getElementById("menu").addEventListener("click", openMenu);
-document.getElementById("menu").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("menu", "menu");}, 1000);});
-document.getElementById("menu").addEventListener("mouseout", function() {clear("menu")});
-
-document.getElementById("menu-back").addEventListener("click", closeMenu);
-document.getElementById("menu-back").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("menu-back", "menu");}, 1000);});
-document.getElementById("menu-back").addEventListener("mouseout", function() {clear("menu-back")});
-
-document.getElementById("dark-button").addEventListener("click", switchDark);
-document.getElementById("dark-button").addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info("dark-button", "menu");}, 1000);});
-document.getElementById("dark-button").addEventListener("mouseout", function() {clear("dark-button")});
-
-document.getElementById("add-note").addEventListener("click", createNote);
+/* Checks for an update on the notes storage object and refreshes the current note's contents. Used to update the edited note when the user 
+/ copies content from a Chrome web page. */
+chrome.storage.onChanged.addListener((changes) => {
+    if (changes.notes && notes_obj[currentNote]) {
+        notes_obj = changes.notes.newValue;
+        content.value = notes_obj[currentNote].contents;
+        if (String(saveStack[saveStack.length-1]).trimEnd() != String(content.value).trimEnd()) 
+        {
+        saveStack.push(content.value);
+        }
+    }
+});
 
 // If the user did not type a fileName into the field the defualt value "Untitled Note" is used instead.
 document.getElementById("fileName").addEventListener("focusout", function() {
@@ -116,17 +61,25 @@ document.getElementById("fileName").addEventListener("focusout", function() {
         toChange = notes_obj[currentNote]
         toChange.title = document.getElementById("fileName").value
         saveState();
-    })
+});
 
 // Functions are sorted in alphabetical order for convinience.
+
+// Each button has an event that triggers its associated function or custom tooltip presentation.
+function bindEvent(button, posType, func) {
+    document.getElementById(button).addEventListener("click", func);
+    document.getElementById(button).addEventListener("mouseover", function() {timeoutIDdesc = setTimeout(function() {info(button, posType);}, 1000);});
+    document.getElementById(button).addEventListener("mouseout", function() {clear(button)});
+};
+
 function changeTheme(colour, noteId)
 {   
     // Switches elements to a specified rgb colour depending on the value of the colour button that was chosen.
     clear(colour);
-    selectedColour = getColour(colour)
+    const selectedColour = getColour(colour)
     document.body.style.background = selectedColour;
     document.getElementById(noteId).style.setProperty("--theme-colour", selectedColour);
-    toChange = notes_obj[noteId];
+    const toChange = notes_obj[noteId];
     toChange.theme = colour;
     document.querySelector(".content").style.setProperty("--theme-colour", selectedColour);
     document.querySelector(".heading").style.setProperty("--theme-colour", selectedColour);
@@ -138,30 +91,7 @@ function clear(button)
 {
     // Clears the textcontent of the corresponding button. 
     clearTimeout(timeoutIDdesc);
-    if (button == "bin")
-    {
-        buttonDesc = document.getElementById('description-bin');
-    }    
-    else if  (button == "info")
-    {
-        buttonDesc = document.getElementById('description-info');
-    }
-    else if (button == "menu")
-    {
-        buttonDesc = document.getElementById('description-menu');
-    }
-    else if (button == "menu-back")
-    {
-        buttonDesc = document.getElementById('description-menu-back');
-    }
-    else if (button == "dark-button")
-    {
-        buttonDesc = document.getElementById('description-theme');
-    }
-    else
-    {
-        buttonDesc = document.getElementById('description');
-    }
+    const buttonDesc = getDescription(button);
     buttonDesc.style.display = "none";
 };
 
@@ -169,10 +99,11 @@ function closeMenu()
 {
     // Closes the popup menu by hiding the popup element.
     if (currentNote !== null) {
-        popup = document.getElementById("popup");
+        const popup = document.getElementById("popup");
         popup.style.display = "none";
     }
     document.getElementById("menu").style.display = "block";
+    chrome.storage.session.set({isMenu: false});
 };
 
 function copy() 
@@ -182,6 +113,7 @@ function copy()
     const textToCopy = content;
     textToCopy.select();
     navigator.clipboard.writeText(textToCopy.value);
+    saveState();
 };
 
 function createNote()
@@ -192,7 +124,7 @@ function createNote()
     const newNote =  document.createElement("button");
     newNote.classList.add('note-button');
     newNote.setAttribute("id", newId);
-    newNote.innerHTML = "New Note";
+    newNote.textContent = "New Note";
 
     newNote.style.setProperty('--shadow-w', '3px 3px');
     newNote.addEventListener("click", () => switchNote(newId));
@@ -260,25 +192,26 @@ function enterFileName()
     }
 };
 
+function finishSetUp(foundCurrent) {
+    // Completes the initial setup process after migration and existing data checks are completed.
+    renderNoteList();
+    currentNote = foundCurrent || "note-1"
+
+    if (Object.keys(notes_obj).length === 0 || foundCurrent === null) {
+        openMenu();
+        currentNote = null;
+    }
+    if (currentNote !== null) {
+        chrome.storage.session.set({isMenu: false});
+        switchNote(currentNote);
+    }
+    init();
+};
+
 function info(button)
 {   
     // Custom tooltips with hardcoded positions relative to the location within the DOM.
-    if (button == "menu")
-    {
-        buttonDesc = document.getElementById('description-menu');
-    }
-    else if (button == "menu-back")
-    {
-        buttonDesc = document.getElementById('description-menu-back');
-    }
-    else if (button == "dark-button")
-    {
-        buttonDesc = document.getElementById('description-theme');
-    }
-    else
-    {
-        buttonDesc = document.getElementById('description');
-    }
+    let buttonDesc = getDescription(button);
     
     let buttonElement = document.getElementById(button);
     let buttonText = buttonElement.dataset.desc;
@@ -325,19 +258,52 @@ function info(button)
     else if (button === "dark-button") {
         buttonDesc.style.right = "35px";
     }
+    
     if (button !== "menu" && button !== "menu-back" && button !== "dark-button") {
             buttonDesc.style.top = "40px"; 
-    } else {
+    } 
+    else {
             buttonDesc.style.top = "32px"; 
     }
+};
 
+function init() {
+
+    chrome.storage.local.get("theme", function (themeResult) {
+        if (themeResult.theme === "dark") {
+            switchDark();
+        }
+    });
+
+    const buttonMap = new Map();
+
+    buttonMap.set("save", ["left", download]);
+    buttonMap.set("undo", ["", undo]);
+    buttonMap.set("copy", ["", copy]);
+    buttonMap.set("paste", ["", paste]);
+    buttonMap.set("green", ["right", () => changeTheme("green", currentNote)]);
+    buttonMap.set("red", ["right", () => changeTheme("red", currentNote)]);
+    buttonMap.set("yellow", ["right", () => changeTheme("yellow", currentNote)]);
+    buttonMap.set("blue", ["right", () => changeTheme("blue", currentNote)]);
+    buttonMap.set("menu", ["menu", openMenu]);
+    buttonMap.set("menu-back", ["menu", closeMenu]);
+    buttonMap.set("dark-button", ["menu", switchDark]);
+
+    buttonMap.forEach (function(value, key) {
+        // Value[0] is the position of the tooltip and value[1] is the function associated with the button.
+        bindEvent(key, value[0], value[1]);
+    });
+
+    document.getElementById("add-note").addEventListener("click", createNote);
+    document.getElementById("fileName").addEventListener("click", enterFileName);
 };
 
 function openMenu()
 {
     // Opens the popup menu by showing the popup element.
     saveState();
-    popup = document.getElementById("popup");
+    chrome.storage.session.set({isMenu: true});
+    const popup = document.getElementById("popup");
     popup.style.display = "block";
     document.getElementById("menu").style.display = "none";
     if (currentNote !== null) {
@@ -365,7 +331,7 @@ function renderNoteList()
         const existingNote =  document.createElement("button");
         existingNote.classList.add('note-button');
         existingNote.setAttribute("id", key);
-        existingNote.innerHTML = value.title;
+        existingNote.textContent = value.title;
 
         const noteColour = getColour(value.theme)
         existingNote.style.setProperty('--theme-colour', noteColour)
@@ -390,7 +356,7 @@ function saveState()
 
 function setContent()
 {   
-    toChange = notes_obj[currentNote];
+    const toChange = notes_obj[currentNote];
     changeTheme(toChange.theme, currentNote);
     document.getElementById("editor").value = toChange.contents;
     document.getElementById("fileName").value = toChange.title;
@@ -409,8 +375,8 @@ function switchDark()
     
     const green = document.getElementById("g");
     const red = document.getElementById("r");
-    const blue = document.getElementById("y");
-    const yellow = document.getElementById("b");
+    const blue = document.getElementById("b");
+    const yellow = document.getElementById("y");
 
     green.src = isDark ? "images/green-dark.png" : "images/green.png";
     red.src = isDark ? "images/red-dark.png" : "images/red.png";
@@ -438,12 +404,10 @@ function undo()
     // Removes the latest item from the stack and peeks to provide the last save state. If the stack is empty the content is also empty.
     clear("undo");
     saveStack.pop();
-    let lastSave = saveStack[saveStack.length-1];
+    let lastSave = saveStack[saveStack.length-1] || '';
     content.value = lastSave;
-    if (saveStack == '') 
-    {
-        content.value = '';
-    }
+    notes_obj[currentNote].contents = lastSave;
+    chrome.storage.local.set({notes: notes_obj});
 };
 
 content.addEventListener("input", function() 
@@ -462,15 +426,40 @@ function getColour(colour) {
     {
         case "red":
             return "#F77373";
-            break;
         case "green":
             return "#50BB3D";
-            break;
         case "blue":
             return "#529EBF";
-            break;
         case "yellow":
             return "#CCC31B";
-            break;
     }
+};
+
+function getDescription(button) {
+    let buttonDesc;
+    if (button == "bin")
+    {
+        buttonDesc = document.getElementById('description-bin');
+    }    
+    else if (button == "info")
+    {
+        buttonDesc = document.getElementById('description-info');
+    }
+    else if (button == "menu")
+    {
+        buttonDesc = document.getElementById('description-menu');
+    }
+    else if (button == "menu-back")
+    {
+        buttonDesc = document.getElementById('description-menu-back');
+    }
+    else if (button == "dark-button")
+    {
+        buttonDesc = document.getElementById('description-theme');
+    }
+    else
+    {
+        buttonDesc = document.getElementById('description');
+    }
+    return buttonDesc;
 };
