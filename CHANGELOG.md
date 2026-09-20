@@ -1,64 +1,27 @@
 # Chrome Notepad
 
-This is a very basic text editor chrome extension project developed using html, css and javascript as a way for me to learn a bit of javascript.
+**Version History:**
 
-V1.0 (Release)
-- Now released on the Chrome webstore at https://chromewebstore.google.com/detail/side-panel-notepad/gopjnkhllbiccdmilekbibjdleogkfcj.
-- Fixed some issues that occured upon reloading the extension.
+VERSION 2.3 (Productivity Update - September 2026):
+• COPY TO SIDEPANEL NOTEPAD: Highlight text on a Chrome webpage and right-click to open the context menu. Select "Copy to SidePanel Notepad" to directly paste the text to the note that you are editing.
 
-Development Version History:
+VERSION 2.2 (Accessibility Update - August 2026):
+• DARK MODE: Toggle dark mode by pressing the "moon" button in the main menu.
+• MINOR VISUAL CHANGES: Minor visual changes to enhance the overall experience.
 
-V3.0
-- Completed the note storage system.
-- Added elements to the menu to better inform the user of the notepad features in addition to breaking up whitespace.
-- Added an info element when hovering over the menu button.
-- Fixed various bugs that occured when switching between notes.
+VERSION 2.1 (Bug fix and UI Update - June 2026):
+• DARK MODE: Changed the menu to a sticky-note style visual.
+• SCALING BUG FIX: Fixed a scaling bug caused by fixed CSS height values.
 
-V3.0B
-- (Incomplete) Up to six notes can be saved by the chrome storage API and accessed within the new menu section.
-- Save button has been replaced with a download icon to better reflect is usage.
+VERSION 2.0 (Major Architecture and UX Update - June 2026):
+• UNLIMITED NOTES: Your existing notes will automatically migrate to version 2.0. 
+• EASY NOTE ADDITION AND DELETION: Right-click to delete notes quickly and efficiently.
+• IMPROVED USER INTERFACE: Lighter backgrounds for higher contrast and a visual overhaul for a more coherent, retro-inspired experience.
 
-V2.3
-- Added a button that will delete the current note.
-- Blank file names will now be replaced with "Untitled Note" as the title.
-
-V2.2
-- Used the chrome storage API so that relevent data can be stored when closing the extension and retrieved once the extension is reopened.
-
-V2.1
-- Changed the width and height of the notepad so that it is suitable for the standard side panel size making it less intrusive for laptop users.
-- Fixed an issue with the description box showing as a white "pixel" when not displaying the descritpion.
-
-V2.0
-- The notepad now opens in the side panel rather than as a popup window so that the notepad can be used simultaneously when interacting with sites.
-- Minor aethsetic changes to compliment the new side panel window style.
-
-V1.31
-- Fixed an issue with the undo button saving duplicate states when the spacebar is pressed.
-
-V1.3
-- Added new theme option - yellow.
-- Added the ability to paste content from the clipboard.
-- Changed the behaviour of hovering over buttons so that descriptions will only appear after not being the button is not clicked for one second, similar to word.
-
-V1.2
-- Added button descriptions that appear when hovered over for 1 second.
-
-V1.11
-- Minor aethsetic improvements.
-
-V1.1
-- Added the ability to copy textarea content to the clipboard.
-- Added the ability to change the colour of the notepad.
-
-V1.0 
-- Created an undo button that uses a stack to retrieve save states.
-- Created a save functionality that converts the text area content into a txt file.
-
-References:
-- https://stackoverflow.com/questions/40121246/trigger-function-when-someone-has-stopped-typing-for-1-second (Delayed function)
-- https://stackoverflow.com/questions/65137434/how-can-i-save-a-txt-file-from-the-value-of-a-textarea (Saving the text area as a txt file)
-- https://developer.chrome.com/docs/extensions/reference/api/sidePanel (Opening the popup file as a side panel)
-- https://developer.chrome.com/docs/extensions/reference/api/storage (Chrome storage API)
-- https://developer.mozilla.org/en-US/
-
+VERSION 1.0 (Release - September 2024)
+• Released on the Chrome webstore at https://chromewebstore.google.com/detail/side-panel-notepad/gopjnkhllbiccdmilekbibjdleogkfcj.
+• 6 SYNC-ENABLED NOTES: Create and store an unlimited number of notes! 
+• SEAMLESS SIDEPANEL INTEGRATION: Instantly switch to the notepad while browsing any website on Chrome.
+• COLOUR-CODED NOTE THEMES: Assign one of four colours to personalise your note-taking experience.
+• EXPORT TO TEXT: Export any note to a txt file with a single click.
+• KEY EDITING TOOLS: Classic Undo, Copy and Paste tools to keep your workflow simple and efficient.
