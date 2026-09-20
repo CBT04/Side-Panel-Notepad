@@ -1,4 +1,4 @@
-# SIDEPANEL NOTEPAD
+# SidePanel Notepad
 
 SidePanel Notepad is a lightweight note-taking Chrome Extension with over 250 weekly users. It provides core editing features for an efficient note-taking experience while browsing the internet.
 The retro-inspired aesthetic was chosen to stand out among generic alternatives that may be present on the Chrome Web Store.
